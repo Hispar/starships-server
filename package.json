@@ -1,0 +1,13 @@
+{
+  "name": "starships-server",
+  "main": "server.js",
+  "version": "1.0.0",
+  "description": "Server for starship app",
+  "author": "Hispar",
+  "dependencies": {
+    "body-parser": "~1.0.1",
+    "caminte": "^0.2.7",
+    "express": "~4.0.0",
+    "mongoose": "~3.6.13"
+  }
+}

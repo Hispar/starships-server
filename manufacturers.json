@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "name": "Consolidated Outland",
+    "icon": "https://robertsspaceindustries.com/media/khu6mwy8zo5sar/icon/Consolidated_outland.png",
+    "_links": {
+      "self": {
+        "href": "http://localhost:3000/manufacturer/1"
+      }
+    }
+  },
+  {
+    "id": 2,
+    "name": "Aegis Dynamics",
+    "icon": "https://robertsspaceindustries.com/media/1apfbr0v0vbnur/icon/Aegis.png",
+    "_links": {
+      "self": {
+        "href": "http://localhost:3000/manufacturer/2"
+      },
+      "ships": {
+        "href": "http://localhost:3000/ship/2"
+      }
+    }
+  }
+]
