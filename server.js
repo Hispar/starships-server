@@ -49,25 +49,16 @@ router.route('/manufacturers')
             return;
         }
 
-        var manufacturer = new Manufacturer (
-            {
-                code: req.body.code,
-                name: req.body.name,
-                icon: req.body.icon
-            });
-        manufacturer.isValid(function (isValid) {
-            if(isValid) {
-                manufacturer.save(function (err) {
-                    if(err) {
-                        return res.send(err);
-                    }
-                    res.json({message: 'Manufacturer created!'});
-                    //console.log('user created');
-                });
-            } else {
-                //console.log('user validation error:', user.errors);
-                res.send(manufacturer.errors);
-            }
+        Manufacturer.findOrCreate({
+            code: req.body.code
+        }, {
+            name: req.body.name,
+            icon: req.body.icon
+        }, function(err, manufacturer){
+            if (err)
+                res.send(err);
+            else
+                res.json({message: 'Manufacturer created!'});
         });
     })
 
