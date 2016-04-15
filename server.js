@@ -44,17 +44,30 @@ router.route('/manufacturers')
 
         //var test = new Test;
         //test.name = req.body.name;
-        var manufacturer = new Manufacturer;      // create a new instance of the Manufacturer model
-        manufacturer.name = req.body.name;
-        manufacturer.icon = req.body.icon;
-        manufacturer.code = req.body.code;
+        if (!req.body.code){
+            res.send({message: 'No code sent for manufacturer'});
+            return;
+        }
 
-        // save the manufacturer and check for errors
-        manufacturer.save(function (err) {
-            if (err)
-                res.send(err);
-            else
-                res.json({message: 'Manufacturer created!'});
+        var manufacturer = new Manufacturer (
+            {
+                code: req.body.code,
+                name: req.body.name,
+                icon: req.body.icon
+            });
+        manufacturer.isValid(function (isValid) {
+            if(isValid) {
+                manufacturer.save(function (err) {
+                    if(err) {
+                        return res.send(err);
+                    }
+                    res.json({message: 'Manufacturer created!'});
+                    //console.log('user created');
+                });
+            } else {
+                //console.log('user validation error:', user.errors);
+                res.send(manufacturer.errors);
+            }
         });
     })
 
