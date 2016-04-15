@@ -41,24 +41,26 @@ router.get('/', function (req, res) {
 router.route('/manufacturers')
     // create a manufacturer (accessed at POST http://localhost:8080/api/manufacters)
     .post(function (req, res) {
-
-        //var test = new Test;
-        //test.name = req.body.name;
-        if (!req.body.code){
-            res.send({message: 'No code sent for manufacturer'});
-            return;
-        }
-
         Manufacturer.findOrCreate({
             code: req.body.code
         }, {
             name: req.body.name,
             icon: req.body.icon
-        }, function(err, manufacturer){
-            if (err)
-                res.send(err);
-            else
-                res.json({message: 'Manufacturer created!'});
+        }, function (err, manufacturer) {
+            manufacturer.isValid(function (isValid) {
+                if(isValid) {
+                    manufacturer.save(function (err) {
+                        if(err) {
+                            return res.send(err);
+                        }
+                        res.json({message: 'Manufacturer created!'});
+                        console.log('Manufacturer created');
+                    });
+                } else {
+                    console.log('manufacturer validation error:', manufacturer.errors);
+                    res.send(manufacturer.errors);
+                }
+            });
         });
     })
 

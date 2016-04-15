@@ -15,4 +15,26 @@ var Manufacturer = schema.define('manufacturers', {
     }
 });
 
+Manufacturer.validatesPresenceOf('name', 'code')
+
+/* custom validator */
+function nameValidator(err, done) {
+    Manufacturer.findOne( { name : this.name }).exec(function (e,u) {
+        if (u) { err(); }
+        done();
+    });
+}
+
+/* custom validator */
+function codeValidator(err, done) {
+    Manufacturer.findOne( { code : this.code }).exec(function (e,u) {
+        if (u) { err(); }
+        done();
+    });
+}
+
+///* custom validation */
+Manufacturer.validateAsync('code', codeValidator, {message: 'is duplicate'});
+Manufacturer.validateAsync('name', nameValidator, {message: 'is duplicate'});
+
 module.exports = Manufacturer;
